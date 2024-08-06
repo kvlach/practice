@@ -8,4 +8,4 @@ I start over from scratch the next day without ever referencing old attempts.
 - JSON parser (Go)
 - Ray tracer (Rust)
 - Doubly linked list (C, Zig)
-- MD5 (Go)
+- MD5 (Go, C)
