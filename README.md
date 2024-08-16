@@ -9,3 +9,4 @@ I start over from scratch the next day without ever referencing old attempts.
 - Ray tracer (Rust)
 - Doubly linked list (C, Zig)
 - MD5 (Go, C)
+- UDP Client (C)
