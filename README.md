@@ -10,4 +10,4 @@ I start over from scratch the next day without ever referencing old attempts.
 - Doubly linked list (C, Zig)
 - MD5 (Go, C)
 - UDP client (C)
-- Bas64 (Python)
+- Base64 (Python)
