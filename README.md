@@ -5,8 +5,9 @@ I start over from scratch the next day without ever referencing old attempts.
 
 ### Completed
 - Memory allocator (C)
-- JSON Parser (Go, Haskell)
+- JSON parser (Go, Haskell)
 - Ray tracer (Rust)
 - Doubly linked list (C, Zig)
 - MD5 (Go, C)
-- UDP Client (C)
+- UDP client (C)
+- Bas64 (Python)
