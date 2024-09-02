@@ -4,7 +4,7 @@ I commit what I've written and then delete it. If I don't finish it,
 I start over from scratch the next day without ever referencing old attempts.
 
 ### Completed
-- Memory allocator (C)
+- Memory allocator (C, x86-64 Assembly)
 - JSON parser (Go, Haskell)
 - Ray tracer (Rust)
 - Doubly linked list (C, Zig)
