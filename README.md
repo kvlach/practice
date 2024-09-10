@@ -12,3 +12,4 @@ I start over from scratch the next day without ever referencing old attempts.
 - UDP client (C)
 - Base64 (Python)
 - Merge sort (Python)
+- LZW (Rust)
