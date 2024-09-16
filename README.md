@@ -13,3 +13,4 @@ I start over from scratch the next day without ever referencing old attempts.
 - Base64 (Python)
 - Merge sort (Python)
 - LZW (Rust)
+- Chat app server (Go)
