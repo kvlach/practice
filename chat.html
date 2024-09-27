@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Chat App</title>
+</head>
+<body>
+	<input type="text" id="chatbox" onchange="setValue(this.value)">
+
+	<script type="text/javascript">
+		const CMD_SEND = "SEND";
+		const CMD_EROR = "EROR";
+
+		ws = new WebSocket("ws://localhost:8000/websocket");
+		ws.onopen = function () {
+			console.log("[DEBUG] Opened websocket connection");
+		}
+		ws.onmessage = function(event) {
+			console.log(`[DEBUG] Received message: ${msg}`);
+
+			if (event.value.length < 6) {
+				console.log(`[ERROR] Received invalid message from the server`)
+			}
+
+			const cmd = event.value.substring(0, 4)
+			switch (cmd) {
+			default:
+				console.log(`[ERROR] Invalid server message: unknown command ${cmd}`)
+			}
+		}
+		ws.onerror = function(error) {
+			console.log(`[ERROR] Websocket: ${error}`);
+		}
+
+		var chatbox = document.getElementById("chatbox");
+		function setValue(msg) {
+			if (!msg) {
+				console.log("[ERROR] Expected non empty/null message");
+			} else {
+				console.log(`[DEBUG] Chatbox was triggered: ${msg}`);
+				ws.send(`${CMD_SEND} ${msg}`)
+			}
+			chatbox.value = "";
+		}
+	</script>
+</body>
+</html>
