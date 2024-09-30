@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Chat App</title>
+</head>
+<body>
+	<div id="messages-area"></div>
+	<input type="text" id="chatbox" onchange="sendMessage(this.value)">
+
+	<style type="text/css">
+		#chatbox {
+			position: fixed;
+			bottom: 0%;
+			height: 2.5em;
+			width: 100%;
+		}
+	</style>
+
+	<script type="text/javascript">
+		const chatbox = document.getElementById("chatbox");
+		const messages_area = document.getElementById("messages-area");
+		const params = new URLSearchParams(window.location.search);
+		const room = params.get("room");
+		const user = params.get("user");
+
+		const ws = new WebSocket("ws://localhost:8000/");
+
+		const CMD_SEND = "SEND";
+		const CMD_JOIN = "JOIN";
+		const CMD_RECV = "RECV";
+		const CMD_EROR = "EROR";
+
+		ws.addEventListener("open", (event) => {
+			console.log("[DEBUG] Opening WebSocket connection");
+
+
+			if (!room) {
+				console.log("[ERROR] No room found in query params");
+			} else {
+				console.log("[DEBUG] Joining room:", room);
+				ws.send(`${CMD_JOIN} ${room}`);
+			}
+		})
+
+		ws.addEventListener("close", (event) => {
+			console.log("[DEBUG] Closed WebSocket connection");
+		})
+
+		ws.addEventListener("error", (event) => {
+			console.log("[ERROR] WebSocket:", event.data);
+		})
+
+		ws.addEventListener("message", (event) => {
+			console.log("[DEBUG] Received message:", event.data);
+
+			const cmd = event.data.substring(0, 4);
+			const rest = event.data.substring(5, event.data.length);
+
+			switch (cmd) {
+			case CMD_RECV:
+				console.log("[DEBUG] RECV event:", rest);
+				messages_area.innerHTML += "<div>" + rest + "</div>";
+			default:
+				console.log("[ERROR] Unknown command:", cmd);
+				break;
+			}
+		})
+
+		function sendMessage(msg) {
+			if (!user) {
+				console.log("[ERROR] Can't send message, no username");
+			} else {
+				console.log("[DEBUG] Sending message:", msg);
+				ws.send(`${CMD_SEND} ${user} ${msg}`);
+				chatbox.value = "";
+			}
+		}
+	</script>
+</body>
+</html>
