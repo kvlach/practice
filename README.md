@@ -14,4 +14,5 @@ I start over from scratch the next day without ever referencing old attempts.
 - Merge sort (Python)
 - LZW (Rust)
 - Chat app server (Go)
+- Chat app client (HTML/CSS/JavaScript)
 - WebSocket server (Go)
