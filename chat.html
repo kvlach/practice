@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Chat App</title>
+</head>
+<body>
+	<div id="messages-area"></div>
+	<input type="text" id="chatbox" onchange="sendMessage(this.value)">
+
+	<style type="text/css">
+		#chatbox {
+			position: fixed;
+			bottom: 0;
+			width: 100%;
+			height: 2.5em;
+		}
+	</style>
+
+	<script type="text/javascript">
+		const params = new URLSearchParams(window.location.search);
+		const room = params.get("room");
+		const user = params.get("user");
+
+		const chabox = document.getElementById("chatbox");
+		const messages_area = document.getElementById("messages-area");
+
+		const ws = new WebSocket("ws://localhost:8000/");
+
+		const CMD_JOIN = "JOIN";
+		const CMD_SEND = "SEND";
+		const CMD_RECV = "RECV";
+		const CMD_EROR = "EROR";
+
+		ws.addEventListener("open", (event) => {
+			console.log("[DEBUG] Opened WebSocket connection");
+
+			if (room) {
+				console.log("[DEBUG] JOIN event:", room);
+				ws.send(`${CMD_JOIN} ${room}`);
+			} else {
+				console.log("[ERROR] No room given");
+			}
+		})
+
+		ws.addEventListener("close", (event) => {
+			console.log("[DEBUG] Closed WebSocket connection");
+		})
+
+		ws.addEventListener("error", (event) => {
+			console.log("[ERROR] WebSocket:", event.data);
+		})
+
+		function appendMessage(msg) {
+			const div = document.createElement("div");
+			div.textContent = msg;
+			messages_area.appendChild(div);
+		}
+
+		ws.addEventListener("message", (event) => {
+			console.log("[DEBUG] Received message:", event.data);
+
+			const cmd = event.data.substring(0, 4);
+			const rest = event.data.substring(5, event.data.length);
+
+			switch (cmd) {
+			case CMD_RECV:
+				console.log("[DEBUG] RECV event:", rest);
+				appendMessage(rest);
+				break;
+			case CMD_SEND:
+				console.log("[DEBUG] Received confirmation for SEND:", rest)
+				appendMessage(rest);
+				break;
+			case CMD_EROR:
+				console.log("[ERROR] EROR event:", rest);
+				break;
+			default:
+				console.log("[ERROR] Unknown command:", cmd);
+			}
+		})
+
+		function sendMessage(msg) {
+			if (msg.includes("\n")) {
+				console.log("[ERROR] Can't include newline (LF) in message");
+			} else if (user) {
+				console.log("[DEBUG] SEND event:", msg);
+				ws.send(`${CMD_SEND} ${user} ${msg}`);
+				chatbox.value = "";
+			} else {
+				console.log("[ERROR] No user provided, can't send message");
+			}
+		}
+	</script>
+</body>
+</html>
