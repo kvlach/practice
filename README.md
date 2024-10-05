@@ -16,3 +16,4 @@ I start over from scratch the next day without ever referencing old attempts.
 - Chat app server (Go)
 - Chat app client (HTML/CSS/JavaScript)
 - WebSocket server (Go)
+- UTF-8 (Zig)
