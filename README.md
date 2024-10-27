@@ -18,7 +18,6 @@ I start over from scratch the next day without ever referencing old attempts.
 - WebSocket server (Go)
 - UTF-8 (Zig)
 - UTF-16 (Zig)
-- Unicode grapheme cluster parser (Zig)
 
 ### TODO
 - ZIP
